@@ -1,2 +1,4 @@
-# food_atlas
-Fod atlas data project
+# Food Atlas Data Science Proiject
+
+This project is in its beggining stages.
+
