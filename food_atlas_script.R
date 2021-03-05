@@ -27,9 +27,6 @@ CA %>%
   geom_bar(stat='identity') +
   coord_flip()
 
-ggplot(data = TTM, aes(x = Type.of.Behavior, y = Sample.Size, fill = Stage.of.Change)) + 
-  geom_bar()
-
 # View access to grocery stores as a percentage change across counties between 2010 and 2015
 CA %>% 
   filter(Variable_Code == "PCH_LACCESS_POP_10_15") %>% 
