@@ -20,11 +20,21 @@ CA <- state_county_data %>%
   filter(State == "CA")
 CA
 
-# View access to grocery stores as a percentage change across counties between 2010 and 2015
+# View access to store count 2015
+CA %>% 
+  filter(Variable_Code == "LACCESS_POP10" | Variable_Code == "LACCESS_POP15") %>% 
+  ggplot(aes(reorder(x = County, -Value), y = Value, fill = Variable_Code)) + 
+  geom_bar(stat='identity') +
+  coord_flip()
 
+ggplot(data = TTM, aes(x = Type.of.Behavior, y = Sample.Size, fill = Stage.of.Change)) + 
+  geom_bar()
+
+# View access to grocery stores as a percentage change across counties between 2010 and 2015
 CA %>% 
   filter(Variable_Code == "PCH_LACCESS_POP_10_15") %>% 
   arrange(Value) %>% 
-  ggplot(aes(x = County, y = Value)) + 
-  geom_col()
+  ggplot(aes(reorder(x = County, -Value), y = Value)) + 
+  geom_col() +
+  coord_flip()
   
