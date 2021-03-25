@@ -117,3 +117,58 @@ ca_low_access_2010_map <- ca_low_access_2010_map +
                      trans = "log10")
 ca_low_access_2010_map
 
+
+################################ Poverty Rate ############################################
+
+##### County lines in every state #####
+
+# Get State Lines
+states <- map_data("state")
+head(states)
+
+# Create Base Map
+states_base <- states %>% 
+  ggplot(aes(x = long, y = lat, fill = region, group = group),) +
+  geom_polygon(color = "black", fill = "gray") + 
+  coord_quickmap() +
+  guides(fill = FALSE)
+states_base
+
+# Get county lines
+counties <- map_data("county") 
+head(counties)
+
+# Draw County Lines
+usa_base <- states_base + theme_void() + 
+  geom_polygon(data = counties, fill = NA, color = "white") +
+  geom_polygon(color = "black", fill = NA)  # get the state border back on top
+usa_base
+
+# filter data of choice, in this case low access to food for the entire country in 2010
+poverty_rate_2015 <- df %>% 
+  filter(Variable_Code == "POVRATE15")
+head(poverty_rate_2015)
+
+# Left Join the counties data for usa and the low access to food data 
+head(counties)
+head(poverty_rate_2015)
+poverty_rate_2015 <- left_join(counties, poverty_rate_2015, by = "subregion")
+head(poverty_rate_2015)
+
+# Plot the joined data on the map, the usa_base map above is important
+poverty_rate_2015_map <- usa_base + 
+  geom_polygon(data = poverty_rate_2015, aes(fill = population, group = group), color = "white") +
+  geom_polygon(color = "black", fill = NA) +
+  theme_void()
+poverty_rate_2015_map
+
+# use the viridis library to change color scheme 
+library(viridis)
+poverty_rate_2015_map <- poverty_rate_2015_map + 
+  scale_fill_viridis(breaks = c(2, 4, 10, 100, 1000, 10000),
+                     trans = "log10")
+poverty_rate_2015_map
+
+
+
+############################# Poverty Rate vs Obiesity Rate ###########################################
